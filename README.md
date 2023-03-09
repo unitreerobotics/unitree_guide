@@ -1,12 +1,12 @@
 # Overview
-The unitree_guide is an open source project for controlling the quadruped robot of Unitree Robotics, and it is also the software project accompanying 《四足机器人控制算法--建模、控制与实践》 published by Unitree Robotics.
+The unitree_guide is an open source project for controlling the quadruped robot of Unitree Robotics, and it is also the software project accompanying [《四足机器人控制算法--建模、控制与实践》](https://detail.tmall.com/item.htm?spm=a212k0.12153887.0.0.5487687dBgiovR&id=704510718152) published by Unitree Robotics.
 
 # Quick Start
 The following will quickly introduce the use of unitree_guide in the gazebo simulator. For more usage, please refer to 《四足机器人控制算法--建模、控制与实践》.
 ## Environment
 We recommand users to run this project in Ubuntu 18.04 and ROS melodic environment.
 ## Dependencies
-1. [ unitree_guide](https://github.com/unitreerobotics/unitree_guide)<br>
+1. [unitree_guide](https://github.com/unitreerobotics/unitree_guide)<br>
 2. [unitree_ros](https://github.com/unitreerobotics/unitree_ros)<br>
 3. [unitree_legged_msgs](https://github.com/unitreerobotics/unitree_ros_to_real)(Note that: unitree_legged_real package should not be a part of dependencies)<br>
 
@@ -39,4 +39,3 @@ After starting the controller,  the robot will lie on the ground of the simulato
 
 # Note
 Unitree_guide provides a basic quadruped robot controller for beginners. To achive better performance, additional fine tuning of parameters or more advanced methods (such as MPC etc.) might be required. Any contribution and good idea from the robotics community are all welcome. Feel free to raise an issue ~ <br>
-MOVE_BASE and unitree_actuator_sdk will be released soon

@@ -94,13 +94,18 @@ if(REAL_ROBOT)
             library/unitree_legged_sdk_3.2/lib
         )
     elseif(${ROBOT_TYPE} STREQUAL "Go1")
-    message("ROBOT_TYPE_Go1")
         include_directories(
             library/unitree_legged_sdk-3.8.0/include
         )
-        link_directories(
-            library/unitree_legged_sdk-3.8.0/lib/cpp/amd64
-        )
+        if(${PLATFORM} STREQUAL "amd64")
+            link_directories(
+                library/unitree_legged_sdk-3.8.0/lib/cpp/amd64
+            )
+        elseif(${PLATFORM} STREQUAL "arm64")
+            link_directories(
+                library/unitree_legged_sdk-3.8.0/lib/cpp/arm64
+            )
+        endif()
     endif()
 endif()
 
@@ -131,11 +136,7 @@ if(REAL_ROBOT)
             target_link_libraries(junior_ctrl libunitree_legged_sdk_arm64.so)
         endif()
     elseif(${ROBOT_TYPE} STREQUAL "Go1")
-        if(${PLATFORM} STREQUAL "amd64")
             target_link_libraries(junior_ctrl libunitree_legged_sdk.a)
-        elseif(${PLATFORM} STREQUAL "arm64")
-            target_link_libraries(junior_ctrl libunitree_legged_sdk.a)
-        endif()
     endif()
 endif()
 target_link_libraries(junior_ctrl -pthread lcm)
