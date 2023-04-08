@@ -145,12 +145,12 @@ if(NOT CATKIN_MAKE)
     set(EXECUTABLE_OUTPUT_PATH ${PROJECT_SOURCE_DIR}/bin)
 endif()
 
-#PlotTest
+# PlotTest
 add_executable(myTest src/test.cpp ${SRC_LIST})
-target_link_libraries(myTest ${catkin_LIBRARIES})
-add_dependencies(myTest ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
-
-#add start
+if (CATKIN_MAKE)
+    target_link_libraries(myTest ${catkin_LIBRARIES})
+    add_dependencies(myTest ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
+endif ()
 find_package(Python3 COMPONENTS Interpreter Development REQUIRED)
 target_link_libraries(myTest
   Python3::Python
@@ -164,8 +164,6 @@ if(Python3_NumPy_FOUND)
 else()
   target_compile_definitions(myTest WITHOUT_NUMPY)
 endif()
-#add end
-
 target_link_libraries(myTest -pthread lcm)
 
 
