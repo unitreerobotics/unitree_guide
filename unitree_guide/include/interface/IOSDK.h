@@ -1,6 +1,8 @@
 /**********************************************************************
  Copyright (c) 2020-2023, Unitree Robotics.Co.Ltd. All rights reserved.
 ***********************************************************************/
+#ifdef COMPILE_WITH_REAL_ROBOT
+
 #ifndef IOSDK_H
 #define IOSDK_H
 
@@ -34,3 +36,5 @@ UNITREE_LEGGED_SDK::LowState _lowState;
 };
 
 #endif  // IOSDK_H
+
+#endif  // COMPILE_WITH_REAL_ROBOT
