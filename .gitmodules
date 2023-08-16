@@ -4,3 +4,4 @@
 [submodule "unitree_ros2_to_real"]
 	path = unitree_ros2_to_real
         url = https://github.com/Wataru-Oshima-Tokyo/unitree_ros2_to_real.git
+	branch = sim
