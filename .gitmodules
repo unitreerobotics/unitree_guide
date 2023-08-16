@@ -1,0 +1,6 @@
+[submodule "unitree_legged_sdk"]
+	path = unitree_legged_sdk
+	url = https://github.com/Wataru-Oshima-Tokyo/unitree_legged_sdk.git
+[submodule "unitree_ros2_to_real"]
+	path = unitree_ros2_to_real
+        url = https://github.com/Wataru-Oshima-Tokyo/unitree_ros2_to_real.git

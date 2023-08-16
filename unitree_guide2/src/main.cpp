@@ -17,7 +17,7 @@
 
 #ifdef COMPILE_WITH_ROS
 #include "interface/KeyBoard.h"
-#include "interface/IOROS.h"
+#include "interface/IOROS2.h"
 #endif // COMPILE_WITH_ROS
 
 bool running = true;
@@ -48,14 +48,15 @@ int main(int argc, char **argv)
     std::cout << std::fixed << std::setprecision(3);
 
 #ifdef RUN_ROS
-    ros::init(argc, argv, "unitree_gazebo_servo");
+    rclcpp::init(argc, argv);
 #endif // RUN_ROS
 
     IOInterface *ioInter;
     CtrlPlatform ctrlPlat;
 
 #ifdef COMPILE_WITH_SIMULATION
-    ioInter = new IOROS();
+    auto private_node = std::make_shared<rclcpp::Node>("IOROS2Node");
+    ioInter = new IOROS2(private_node);
     ctrlPlat = CtrlPlatform::GAZEBO;
 #endif // COMPILE_WITH_SIMULATION
 
