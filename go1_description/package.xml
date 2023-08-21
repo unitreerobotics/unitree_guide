@@ -19,5 +19,6 @@
 
   <export>
     <build_type>ament_cmake</build_type>
+    <!-- <gazebo_ros gazebo_model_path = "$HOME/humble_ws/install/go1_description/share/" /> -->
   </export>
 </package>

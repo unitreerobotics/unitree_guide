@@ -63,7 +63,7 @@
                     <origin rpy="${PI} ${PI} 0" xyz="0 0 0"/>
                 </xacro:if>
                 <geometry>
-                    <mesh filename="package://go1_description/meshes/hip.dae" scale="1 1 1"/>
+                    <mesh filename="package://meshes/hip.dae" scale="1 1 1"/>
                 </geometry>
                 <!-- <material name="orange"/> -->
             </visual>
@@ -127,10 +127,10 @@
                 <origin rpy="0 0 0" xyz="0 0 0"/>
                 <geometry>
                     <xacro:if value="${mirror_dae == True}">
-                        <mesh filename="package://go1_description/meshes/thigh.dae" scale="1 1 1"/>
+                        <mesh filename="package://meshes/thigh.dae" scale="1 1 1"/>
                     </xacro:if>
                     <xacro:if value="${mirror_dae == False}">
-                        <mesh filename="package://go1_description/meshes/thigh_mirror.dae" scale="1 1 1"/>
+                        <mesh filename="package://meshes/thigh_mirror.dae" scale="1 1 1"/>
                     </xacro:if>
                 </geometry>
                 <!-- <material name="orange"/> -->
@@ -194,7 +194,7 @@
             <visual>
                 <origin rpy="0 0 0" xyz="0 0 0"/>
                 <geometry>
-                    <mesh filename="package://go1_description/meshes/calf.dae" scale="1 1 1"/>
+                    <mesh filename="package://meshes/calf.dae" scale="1 1 1"/>
                 </geometry>
                 <!-- <material name="orange"/> -->
             </visual>
@@ -268,5 +268,40 @@
         </link>
 
         <xacro:leg_transmission name="${name}"/>
+
+        <ros2_control name="GazeboSimSystem" type="system" >
+            <hardware>
+                <plugin>gazebo_ros2_control/GazeboSystem</plugin>
+            </hardware>
+            <joint name="{name}_hip_joint">
+                <command_interface name="position" />
+                <state_interface name="position">
+                    <param name="p">3.0</param>
+                    <param name="i">0.0</param>
+                    <param name="d">0.0</param>
+                </state_interface>
+                <state_interface name="velocity" />
+            </joint>
+
+            <joint name="{name}_thigh_joint">
+                <command_interface name="position" />
+                <state_interface name="position">
+                    <param name="p">3.0</param>
+                    <param name="i">0.0</param>
+                    <param name="d">0.0</param>
+                </state_interface>
+                <state_interface name="velocity" />
+            </joint>
+
+            <joint name="{name}_calf_joint">
+                <command_interface name="position" />
+                <state_interface name="position">
+                    <param name="p">3.0</param>
+                    <param name="i">0.0</param>
+                    <param name="d">0.0</param>
+                </state_interface>
+                <state_interface name="velocity" />
+            </joint>
+        </ros2_control>
     </xacro:macro>
 </robot>

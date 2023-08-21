@@ -29,10 +29,11 @@ def launch_setup(context, *args, **kwargs):
     # ROBOT STATE PUBLISHER
     ####### DATA INPUT ##########
 
-    xacro_file = 'robot.xacro'
+    xacro_file = 'go1.urdf'
     package_description = rname + "_description"
     robot_desc_path = os.path.join(get_package_share_directory(
-        package_description), "xacro", xacro_file)
+        package_description), "urdf", xacro_file)
+    print(robot_desc_path)
     # robot_controllers = os.path.join(get_package_share_directory(
     #     package_description), "config", "robot_control.yaml")
 
@@ -60,39 +61,24 @@ def launch_setup(context, *args, **kwargs):
     )
 
         # # Load joint controllers
-    controller_manager = Node(
-        package='controller_manager',
-        executable='ros2_control_node',
-        name = "controller_manager",    
-        namespace= "",
-        parameters=[{'use_sim_time': use_sim_time,
-                     'robot_description': robot_desc_path}, robot_controllers],
-        output='screen'
-    )
+    # controller_manager = Node(
+    #     package='controller_manager',
+    #     executable='ros2_control_node',
+    #     name = "controller_manager",    
+    #     namespace= "",
+    #     parameters=[{'use_sim_time': use_sim_time,
+    #                  'robot_description': robot_desc_path}, robot_controllers],
+    #     output='screen'
+    # )
 
-    controllers = [
-        'FL_hip_controller',
-        'FL_thigh_controller',
-        'FL_calf_controller',
-        'FR_hip_controller',
-        'FR_thigh_controller',
-        'FR_calf_controller',
-        'RL_hip_controller',
-        'RL_thigh_controller',
-        'RL_calf_controller',
-        'RR_hip_controller',
-        'RR_thigh_controller',
-        'RR_calf_controller'
-    ]
-
-    control_spawners = [Node(
-        package='controller_manager',
-        executable='spawner',
-        name=f"controller_spawner_{controller}",
-        namespace="",
-        arguments=[controller],
-        output='screen'
-    ) for controller in controllers]
+    # control_spawners = Node(
+    #     package='controller_manager',
+    #     executable='spawner',
+    #     name = "controller_spawner",    
+    #     namespace= "",
+    #     arguments=['FL_hip_controller',],
+    #     output='screen'
+    # )
 
     # Spawn ROBOT Set Gazebo
     start_gazebo_ros_spawner_cmd = Node(
@@ -109,8 +95,8 @@ def launch_setup(context, *args, **kwargs):
                    ]
     )
 
-    return [robot_state_publisher_node, *control_spawners,controller_manager,joint_state_publisher_node, start_gazebo_ros_spawner_cmd]
-    # return [robot_state_publisher_node, *control_spawners, joint_state_publisher_node, start_gazebo_ros_spawner_cmd]
+    # return [robot_state_publisher_node, control_spawners,controller_manager,joint_state_publisher_node, start_gazebo_ros_spawner_cmd]
+    return [robot_state_publisher_node, joint_state_publisher_node, start_gazebo_ros_spawner_cmd]
 
 
 
@@ -132,11 +118,12 @@ def generate_launch_description():
     pkg_share = FindPackageShare(package=package_name).find(package_name)
     go1_pkg_share = FindPackageShare(package="go1_description").find("go1_description")
     gazebo_models_path = os.path.join(pkg_share, gazebo_models_path)
+    # go1_models_path = os.path.join(go1_pkg_share, "meshes")
     os.environ["GAZEBO_MODEL_PATH"] = gazebo_models_path
     gazebo_mode_paths = [go1_pkg_share]
     for path in gazebo_mode_paths:
         os.environ["GAZEBO_MODEL_PATH"] += os.pathsep + path
-    print(os.environ["GAZEBO_MODEL_PATH"])
+ 
 
 
     # Include another launch file

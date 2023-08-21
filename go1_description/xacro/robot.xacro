@@ -47,7 +47,7 @@
         <visual>
             <origin rpy="0 0 0" xyz="0 0 0"/>
             <geometry>
-                <mesh filename="package://go1_description/meshes/trunk.dae" scale="1 1 1"/>
+                <mesh filename="package://meshes/trunk.dae" scale="1 1 1"/>
             </geometry>
             <!-- <material name="orange"/> -->
         </visual>
