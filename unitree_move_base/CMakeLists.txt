@@ -3,7 +3,6 @@ project(unitree_move_base)
 
 find_package(catkin REQUIRED COMPONENTS
   geometry_msgs
-  move_base_msgs
   roscpp
   rospy
   tf
