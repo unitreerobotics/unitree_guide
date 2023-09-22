@@ -50,7 +50,7 @@ void State_SwingTest::run(){
     }
     
     if(_userValue.lx > 0){
-        _posGoal(1) = invNormalize(_userValue.lx, _initPos(1, 0), _initPos(1)+_yMax, 0, 1);
+        _posGoal(1) = invNormalize(_userValue.lx, _initPos(1), _initPos(1)+_yMax, 0, 1);
     }else{
         _posGoal(1) = invNormalize(_userValue.lx, _initPos(1)+_yMin, _initPos(1), -1, 0);
     }
