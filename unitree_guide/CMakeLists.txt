@@ -56,7 +56,9 @@ if(CATKIN_MAKE)
             controller_manager
             joint_state_controller
             gazebo_ros
-            # gazebo
+            gazebo_msgs
+            gazebo_plugins
+            gazebo_ros_control
         )
     endif()
 
