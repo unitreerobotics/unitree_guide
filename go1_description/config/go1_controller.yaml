@@ -1,0 +1,178 @@
+controller_manager:
+  ros__parameters:
+    update_rate: 1000  # Hz
+
+    joint_state_broadcaster:
+      type: joint_state_broadcaster/JointStateBroadcaster
+
+    FL_hip_controller:
+      type: unitree_legged_control/UnitreeJointController
+    FL_thigh_controller:
+      type: unitree_legged_control/UnitreeJointController
+    FL_calf_controller:
+      type: unitree_legged_control/UnitreeJointController
+
+    FR_hip_controller:
+      type: unitree_legged_control/UnitreeJointController
+    FR_thigh_controller:
+      type: unitree_legged_control/UnitreeJointController
+    FR_calf_controller:
+      type: unitree_legged_control/UnitreeJointController
+
+    RL_hip_controller:
+      type: unitree_legged_control/UnitreeJointController
+    RL_thigh_controller:
+      type: unitree_legged_control/UnitreeJointController
+    RL_calf_controller:
+      type: unitree_legged_control/UnitreeJointController
+
+    RR_hip_controller:
+      type: unitree_legged_control/UnitreeJointController
+    RR_thigh_controller:
+      type: unitree_legged_control/UnitreeJointController
+    RR_calf_controller:
+      type: unitree_legged_control/UnitreeJointController
+
+FL_hip_controller:
+  ros__parameters:
+    joints:
+      - FL_hip_joint
+    command_interfaces:
+      - effort
+    state_interfaces:
+      - position
+      - velocity
+    gains:
+      FL_hip_joint:     {p: 100.0, i: 0.0, d: 5.0, i_clamp: 2.5}
+
+FL_thigh_controller:
+  ros__parameters:
+    joints:
+      - FL_thigh_joint
+    command_interfaces:
+      - effort
+    state_interfaces:
+      - position
+      - velocity
+    gains:
+      FL_thigh_joint:     {p: 300.0, i: 0.0, d: 8.0, i_clamp: 2.5}
+
+FL_calf_controller:
+  ros__parameters:
+    joints:
+      - FL_calf_joint
+    command_interfaces:
+      - effort
+    state_interfaces:
+      - position
+      - velocity
+    gains:
+      FL_calf_joint:     {p: 300.0, i: 0.0, d: 8.0, i_clamp: 2.5}
+
+FR_hip_controller:
+  ros__parameters:
+    joints:
+      - FR_hip_joint
+    command_interfaces:
+      - effort
+    state_interfaces:
+      - position
+      - velocity
+    gains:
+      FR_hip_joint:     {p: 100.0, i: 0.0, d: 5.0, i_clamp: 2.5}
+
+FR_thigh_controller:
+  ros__parameters:
+    joints:
+      - FR_thigh_joint
+    command_interfaces:
+      - effort
+    state_interfaces:
+      - position
+      - velocity
+    gains:
+      FR_thigh_joint:     {p: 300.0, i: 0.0, d: 8.0, i_clamp: 2.5}
+
+FR_calf_controller:
+  ros__parameters:
+    joints:
+      - FR_calf_joint
+    command_interfaces:
+      - effort
+    state_interfaces:
+      - position
+      - velocity
+    gains:
+      FR_calf_joint:     {p: 300.0, i: 0.0, d: 8.0, i_clamp: 2.5}
+
+RL_hip_controller:
+  ros__parameters:
+    joints:
+      - RL_hip_joint
+    command_interfaces:
+      - effort
+    state_interfaces:
+      - position
+      - velocity
+    gains:
+      RL_hip_joint:     {p: 100.0, i: 0.0, d: 5.0, i_clamp: 2.5}
+
+RL_thigh_controller:
+  ros__parameters:
+    joints:
+      - RL_thigh_joint
+    command_interfaces:
+      - effort
+    state_interfaces:
+      - position
+      - velocity
+    gains:
+      RL_thigh_joint:     {p: 300.0, i: 0.0, d: 8.0, i_clamp: 2.5}
+
+RL_calf_controller:
+  ros__parameters:
+    joints:
+      - RL_calf_joint
+    command_interfaces:
+      - effort
+    state_interfaces:
+      - position
+      - velocity
+    gains:
+      RL_calf_joint:     {p: 300.0, i: 0.0, d: 8.0, i_clamp: 2.5}
+
+RR_hip_controller:
+  ros__parameters:
+    joints:
+      - RR_hip_joint
+    command_interfaces:
+      - effort
+    state_interfaces:
+      - position
+      - velocity
+    gains:
+      RR_hip_joint:     {p: 100.0, i: 0.0, d: 5.0, i_clamp: 2.5}
+
+RR_thigh_controller:
+  ros__parameters:
+    joints:
+      - RR_thigh_joint
+    command_interfaces:
+      - effort
+    state_interfaces:
+      - position
+      - velocity
+    gains:
+      RR_thigh_joint:     {p: 300.0, i: 0.0, d: 8.0, i_clamp: 2.5}
+
+RR_calf_controller:
+  ros__parameters:
+    joints:
+      - RR_calf_joint
+    command_interfaces:
+      - effort
+    state_interfaces:
+      - position
+      - velocity
+    gains:
+      RR_calf_joint:     {p: 300.0, i: 0.0, d: 8.0, i_clamp: 2.5}
