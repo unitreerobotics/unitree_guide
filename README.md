@@ -60,7 +60,3 @@ This package inherits the license from the original `unitree_robotics/unitree_gu
 
 This ROS2 adaptation is based on the work done by Unitree Robotics. We thank them for their contributions to the robotics community and for providing a platform to learn and experiment with quadruped robots.
 ```
-
-Remember to replace `<your-username>` with your actual GitHub username or the username/organization under which the repository will be hosted.
-
-Additionally, it's good practice to include instructions for obtaining any necessary dependencies, detailed build instructions, and an actual license file reference if required.
