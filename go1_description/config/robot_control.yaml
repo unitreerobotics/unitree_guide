@@ -1,0 +1,46 @@
+controller_manager:
+  ros__parameters:
+    use_sim_time: True
+    update_rate: 250  # Hz
+
+    joint_states_controller:
+      type: joint_state_broadcaster/JointStateBroadcaster
+
+    joint_group_effort_controller:
+      type: joint_trajectory_controller/JointTrajectoryController
+
+joint_group_effort_controller:
+  ros__parameters:
+    use_sim_time: True
+    joints:
+        - FL_hip_joint
+        - FL_thigh_joint
+        - FL_calf_joint
+        - FR_hip_joint
+        - FR_thigh_joint
+        - FR_calf_joint
+        - RL_hip_joint
+        - RL_thigh_joint
+        - RL_calf_joint
+        - RR_hip_joint
+        - RR_thigh_joint
+        - RR_calf_joint 
+    command_interfaces:
+      - effort
+    state_interfaces:
+      - position
+      - velocity
+    
+    gains:
+      FL_hip_joint      : {p: 100.0, i: 0.0, d: 5.0, i_clamp: 2.5}
+      FL_thigh_joint    : {p: 300.0, i: 0.0, d: 8.0, i_clamp: 2.5}
+      FL_calf_joint     : {p: 300.0, i: 0.0, d: 8.0, i_clamp: 2.5}
+      FR_hip_joint      : {p: 100.0, i: 0.0, d: 5.0, i_clamp: 2.5}
+      FR_thigh_joint    : {p: 300.0, i: 0.0, d: 8.0, i_clamp: 2.5}
+      FR_calf_joint     : {p: 300.0, i: 0.0, d: 8.0, i_clamp: 2.5}
+      RL_hip_joint      : {p: 100.0, i: 0.0, d: 5.0, i_clamp: 2.5}
+      RL_thigh_joint    : {p: 300.0, i: 0.0, d: 8.0, i_clamp: 2.5}
+      RL_calf_joint     : {p: 300.0, i: 0.0, d: 8.0, i_clamp: 2.5}
+      RR_hip_joint      : {p: 100.0, i: 0.0, d: 5.0, i_clamp: 2.5}
+      RR_thigh_joint    : {p: 300.0, i: 0.0, d: 8.0, i_clamp: 2.5}
+      RR_calf_joint     : {p: 300.0, i: 0.0, d: 8.0, i_clamp: 2.5}

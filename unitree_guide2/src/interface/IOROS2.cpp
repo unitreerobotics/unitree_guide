@@ -79,34 +79,34 @@ void IOROS2::recvState(LowlevelState *state){
 }
 
 void IOROS2::initSend(){
-    _servo_pub[0] = node_->create_publisher<ros2_unitree_legged_msgs::msg::MotorCmd>("/" + _robot_name + "_gazebo/FR_hip_controller/command", 10);
-    _servo_pub[1] = node_->create_publisher<ros2_unitree_legged_msgs::msg::MotorCmd>("/" + _robot_name + "_gazebo/FR_thigh_controller/command", 10);
-    _servo_pub[2] = node_->create_publisher<ros2_unitree_legged_msgs::msg::MotorCmd>("/" + _robot_name + "_gazebo/FR_calf_controller/command", 10);
-    _servo_pub[3] = node_->create_publisher<ros2_unitree_legged_msgs::msg::MotorCmd>("/" + _robot_name + "_gazebo/FL_hip_controller/command", 10);
-    _servo_pub[4] = node_->create_publisher<ros2_unitree_legged_msgs::msg::MotorCmd>("/" + _robot_name + "_gazebo/FL_thigh_controller/command", 10);
-    _servo_pub[5] = node_->create_publisher<ros2_unitree_legged_msgs::msg::MotorCmd>("/" + _robot_name + "_gazebo/FL_calf_controller/command", 10);
-    _servo_pub[6] = node_->create_publisher<ros2_unitree_legged_msgs::msg::MotorCmd>("/" + _robot_name + "_gazebo/RR_hip_controller/command", 10);
-    _servo_pub[7] = node_->create_publisher<ros2_unitree_legged_msgs::msg::MotorCmd>("/" + _robot_name + "_gazebo/RR_thigh_controller/command", 10);
-    _servo_pub[8] = node_->create_publisher<ros2_unitree_legged_msgs::msg::MotorCmd>("/" + _robot_name + "_gazebo/RR_calf_controller/command", 10);
-    _servo_pub[9] = node_->create_publisher<ros2_unitree_legged_msgs::msg::MotorCmd>("/" + _robot_name + "_gazebo/RL_hip_controller/command", 10);
-    _servo_pub[10] = node_->create_publisher<ros2_unitree_legged_msgs::msg::MotorCmd>("/" + _robot_name + "_gazebo/RL_thigh_controller/command", 10);
-    _servo_pub[11] = node_->create_publisher<ros2_unitree_legged_msgs::msg::MotorCmd>("/" + _robot_name + "_gazebo/RL_calf_controller/command", 10);
+    _servo_pub[0] = node_->create_publisher<ros2_unitree_legged_msgs::msg::MotorCmd>("/FR_hip_joint/command", 10);
+    _servo_pub[1] = node_->create_publisher<ros2_unitree_legged_msgs::msg::MotorCmd>("/FR_thigh_joint/command", 10);
+    _servo_pub[2] = node_->create_publisher<ros2_unitree_legged_msgs::msg::MotorCmd>("/FR_calf_joint/command", 10);
+    _servo_pub[3] = node_->create_publisher<ros2_unitree_legged_msgs::msg::MotorCmd>("/FL_hip_joint/command", 10);
+    _servo_pub[4] = node_->create_publisher<ros2_unitree_legged_msgs::msg::MotorCmd>("/FL_thigh_joint/command", 10);
+    _servo_pub[5] = node_->create_publisher<ros2_unitree_legged_msgs::msg::MotorCmd>("/FL_calf_joint/command", 10);
+    _servo_pub[6] = node_->create_publisher<ros2_unitree_legged_msgs::msg::MotorCmd>("/RR_hip_joint/command", 10);
+    _servo_pub[7] = node_->create_publisher<ros2_unitree_legged_msgs::msg::MotorCmd>("/RR_thigh_joint/command", 10);
+    _servo_pub[8] = node_->create_publisher<ros2_unitree_legged_msgs::msg::MotorCmd>("/RR_calf_joint/command", 10);
+    _servo_pub[9] = node_->create_publisher<ros2_unitree_legged_msgs::msg::MotorCmd>("/RL_hip_joint/command", 10);
+    _servo_pub[10] = node_->create_publisher<ros2_unitree_legged_msgs::msg::MotorCmd>("/RL_thigh_joint/command", 10);
+    _servo_pub[11] = node_->create_publisher<ros2_unitree_legged_msgs::msg::MotorCmd>("/RL_calf_joint/command", 10);
 }
 
 void IOROS2::initRecv(){
-    _imu_sub = node_->create_subscription<sensor_msgs::msg::Imu>("/trunk_imu", 10, std::bind(&IOROS2::imuCallback, this, std::placeholders::_1));
-    _servo_sub[0] = node_->create_subscription<ros2_unitree_legged_msgs::msg::MotorState>("/" + _robot_name + "_gazebo/FR_hip_controller/state", 10, std::bind(&IOROS2::FRhipCallback, this, std::placeholders::_1));
-    _servo_sub[1] = node_->create_subscription<ros2_unitree_legged_msgs::msg::MotorState>("/" + _robot_name + "_gazebo/FR_thigh_controller/state", 10, std::bind(&IOROS2::FRthighCallback, this, std::placeholders::_1));
-    _servo_sub[2] = node_->create_subscription<ros2_unitree_legged_msgs::msg::MotorState>("/" + _robot_name + "_gazebo/FR_calf_controller/state", 10, std::bind(&IOROS2::FRcalfCallback, this, std::placeholders::_1));
-    _servo_sub[3] = node_->create_subscription<ros2_unitree_legged_msgs::msg::MotorState>("/" + _robot_name + "_gazebo/FL_hip_controller/state", 10, std::bind(&IOROS2::FLhipCallback, this, std::placeholders::_1));
-    _servo_sub[4] = node_->create_subscription<ros2_unitree_legged_msgs::msg::MotorState>("/" + _robot_name + "_gazebo/FL_thigh_controller/state", 10, std::bind(&IOROS2::FLthighCallback, this, std::placeholders::_1));
-    _servo_sub[5] = node_->create_subscription<ros2_unitree_legged_msgs::msg::MotorState>("/" + _robot_name + "_gazebo/FL_calf_controller/state", 10, std::bind(&IOROS2::FLcalfCallback, this, std::placeholders::_1));
-    _servo_sub[6] = node_->create_subscription<ros2_unitree_legged_msgs::msg::MotorState>("/" + _robot_name + "_gazebo/RR_hip_controller/state", 10, std::bind(&IOROS2::RRhipCallback, this, std::placeholders::_1));
-    _servo_sub[7] = node_->create_subscription<ros2_unitree_legged_msgs::msg::MotorState>("/" + _robot_name + "_gazebo/RR_thigh_controller/state", 10, std::bind(&IOROS2::RRthighCallback, this, std::placeholders::_1));
-    _servo_sub[8] = node_->create_subscription<ros2_unitree_legged_msgs::msg::MotorState>("/" + _robot_name + "_gazebo/RR_calf_controller/state", 10, std::bind(&IOROS2::RRcalfCallback, this, std::placeholders::_1));
-    _servo_sub[9] = node_->create_subscription<ros2_unitree_legged_msgs::msg::MotorState>("/" + _robot_name + "_gazebo/RL_hip_controller/state", 10, std::bind(&IOROS2::RLhipCallback, this, std::placeholders::_1));
-    _servo_sub[10] = node_->create_subscription<ros2_unitree_legged_msgs::msg::MotorState>("/" + _robot_name + "_gazebo/RL_thigh_controller/state", 10, std::bind(&IOROS2::RLthighCallback, this, std::placeholders::_1));
-    _servo_sub[11] = node_->create_subscription<ros2_unitree_legged_msgs::msg::MotorState>("/" + _robot_name + "_gazebo/RL_calf_controller/state", 10, std::bind(&IOROS2::RLcalfCallback, this, std::placeholders::_1));
+    _imu_sub = node_->create_subscription<sensor_msgs::msg::Imu>("/imu/data", 10, std::bind(&IOROS2::imuCallback, this, std::placeholders::_1));
+    _servo_sub[0] = node_->create_subscription<ros2_unitree_legged_msgs::msg::MotorState>("/FR_hip_joint/state", 10, std::bind(&IOROS2::FRhipCallback, this, std::placeholders::_1));
+    _servo_sub[1] = node_->create_subscription<ros2_unitree_legged_msgs::msg::MotorState>("/FR_thigh_joint/state", 10, std::bind(&IOROS2::FRthighCallback, this, std::placeholders::_1));
+    _servo_sub[2] = node_->create_subscription<ros2_unitree_legged_msgs::msg::MotorState>("/FR_calf_joint/state", 10, std::bind(&IOROS2::FRcalfCallback, this, std::placeholders::_1));
+    _servo_sub[3] = node_->create_subscription<ros2_unitree_legged_msgs::msg::MotorState>("/FL_hip_joint/state", 10, std::bind(&IOROS2::FLhipCallback, this, std::placeholders::_1));
+    _servo_sub[4] = node_->create_subscription<ros2_unitree_legged_msgs::msg::MotorState>("/FL_thigh_joint/state", 10, std::bind(&IOROS2::FLthighCallback, this, std::placeholders::_1));
+    _servo_sub[5] = node_->create_subscription<ros2_unitree_legged_msgs::msg::MotorState>("/FL_calf_joint/state", 10, std::bind(&IOROS2::FLcalfCallback, this, std::placeholders::_1));
+    _servo_sub[6] = node_->create_subscription<ros2_unitree_legged_msgs::msg::MotorState>("/RR_hip_joint/state", 10, std::bind(&IOROS2::RRhipCallback, this, std::placeholders::_1));
+    _servo_sub[7] = node_->create_subscription<ros2_unitree_legged_msgs::msg::MotorState>("/RR_thigh_joint/state", 10, std::bind(&IOROS2::RRthighCallback, this, std::placeholders::_1));
+    _servo_sub[8] = node_->create_subscription<ros2_unitree_legged_msgs::msg::MotorState>("/RR_calf_joint/state", 10, std::bind(&IOROS2::RRcalfCallback, this, std::placeholders::_1));
+    _servo_sub[9] = node_->create_subscription<ros2_unitree_legged_msgs::msg::MotorState>("/RL_hip_joint/state", 10, std::bind(&IOROS2::RLhipCallback, this, std::placeholders::_1));
+    _servo_sub[10] = node_->create_subscription<ros2_unitree_legged_msgs::msg::MotorState>("/RL_thigh_joint/state", 10, std::bind(&IOROS2::RLthighCallback, this, std::placeholders::_1));
+    _servo_sub[11] = node_->create_subscription<ros2_unitree_legged_msgs::msg::MotorState>("/RL_calf_joint/state", 10, std::bind(&IOROS2::RLcalfCallback, this, std::placeholders::_1));
 }
 
 

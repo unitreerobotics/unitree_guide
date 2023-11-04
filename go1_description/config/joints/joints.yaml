@@ -1,0 +1,26 @@
+/**:
+  ros__parameters:
+    joints_map:
+      left_front:
+        - FL_hip_joint
+        - FL_thigh_joint
+        - FL_calf_joint
+        - FL_foot_fixed
+
+      right_front:
+        - FR_hip_joint
+        - FR_thigh_joint
+        - FR_calf_joint
+        - FR_foot_fixed
+
+      left_hind:
+        - RL_hip_joint
+        - RL_thigh_joint
+        - RL_calf_joint
+        - RL_foot_fixed
+
+      right_hind:
+        - RR_hip_joint
+        - RR_thigh_joint
+        - RR_calf_joint
+        - RR_foot_fixed
