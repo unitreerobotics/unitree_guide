@@ -1,5 +1,3 @@
-Certainly! Below is a template for a `README.md` that explains the package, its current status, and an invitation for contributions to help resolve the issues:
-
 ```markdown
 # ROS2 Fork of Unitree Robotics Guide
 
