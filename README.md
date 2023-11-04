@@ -1,41 +1,68 @@
-# Overview
-The unitree_guide is an open source project for controlling the quadruped robot of Unitree Robotics, and it is also the software project accompanying [《四足机器人控制算法--建模、控制与实践》](https://detail.tmall.com/item.htm?spm=a212k0.12153887.0.0.5487687dBgiovR&id=704510718152) published by Unitree Robotics.
+Certainly! Below is a template for a `README.md` that explains the package, its current status, and an invitation for contributions to help resolve the issues:
 
-# Quick Start
-The following will quickly introduce the use of unitree_guide in the gazebo simulator. For more usage, please refer to 《四足机器人控制算法--建模、控制与实践》.
-## Environment
-We recommand users to run this project in Ubuntu 18.04 and ROS melodic environment.
-## Dependencies
-1. [unitree_guide](https://github.com/unitreerobotics/unitree_guide)<br>
-2. [unitree_ros](https://github.com/unitreerobotics/unitree_ros)<br>
-3. [unitree_legged_msgs](https://github.com/unitreerobotics/unitree_ros_to_real)(Note that: unitree_legged_real package should not be a part of dependencies)<br>
+```markdown
+# ROS2 Fork of Unitree Robotics Guide
 
-Put these three packages in the src folder of a ROS workspace.
+## Overview
 
-## build
-Open a terminal and switch the directory to the ros workspace containing unitree_guide,  then run the following command to build the project:
-```
-catkin_make
-```
-If you have any error in this step, you can raise an issue to us.
-## run
-In the same terminal, run the following command step by step:
-```
-source ./devel/setup.bash
-```
-To open the gazebo simulator, run:
-```
-roslaunch unitree_guide gazeboSim.launch 
+This repository contains a ROS2 fork of the original `unitree_robotics/unitree_guide` package, adapted to work with the latest ROS2 ecosystem. It is intended for use with the Unitree GO1 robot and includes the necessary launch files, configurations, and dependency information for ROS2.
+
+The package aims to provide an example for robotics enthusiasts and researchers looking to integrate Unitree robots with ROS2.
+
+## Current Status: Prototype
+
+As of the current release, the package can successfully launch the GO1 robot within a ROS2 environment. However, the control parameters are not properly configured, leading to unpredictable behavior when attempting to control the robot.
+
+**Important Note:** This package is in a very early prototype stage. If you launch the robot with this package, the GO1 robot may exhibit erratic behavior due to incorrect parameter settings.
+
+## Getting Started
+
+To get started with this package, clone the repository into your ROS2 workspace:
+
+```bash
+git clone https://github.com/Wataru-Oshima-Tokyo/unitree_guide2.git
 ```
 
-For starting the controller, open an another terminal and switch to the same directory,  then run the following command:
-```
-./devel/lib/unitree_guide/junior_ctrl
+Then, compile the workspace:
+
+```bash
+cd path_to_your_ros2_workspace
+colcon build 
+source install/setup.bash
 ```
 
-## usage
-After starting the controller,  the robot will lie on the ground of the simulator, then press the '2' key on the keyboard to switch the robot's finite state machine (FSM) from **Passive**(initial state) to **FixedStand**,  then press the '4' key to switch the FSM from **FixedStand** to **Trotting**, now you can press the 'w' 'a' 's' 'd' key to control the translation of the robot, and press the 'j' 'l' key to control the rotation of the robot. Press the Spacebar, the robot will stop and stand on the ground
-. (If there is no response, you need to click on the terminal opened for starting the controller and then repeat the previous operation)
+To launch the robot, use the provided launch files:
 
-# Note
-Unitree_guide provides a basic quadruped robot controller for beginners. To achive better performance, additional fine tuning of parameters or more advanced methods (such as MPC etc.) might be required. Any contribution and good idea from the robotics community are all welcome. Feel free to raise an issue ~ <br>
+(terminal1)
+```bash
+ros2 launch unitree_guide2 launch_world.launch.py 
+```
+(terminal2)
+```bash
+ros2 launch unitree_ros2_guide spawn_go1.launch.py 
+```
+
+## Contributions
+
+This package is open for contributions! If you have experience with Unitree robots and ROS2, your help would be highly appreciated to improve the parameter configurations. Here's how you can contribute:
+
+- **Issue Reporting**: If you find any issues, please report them using the GitHub Issues feature.
+- **Pull Requests**: Feel free to fork the repository, make improvements, especially to the parameter configurations, and submit a pull request.
+- **Discussion**: Start or join a discussion about the best practices for configuring Unitree robots in ROS2.
+
+## Troubleshooting
+
+If you encounter issues with the package, please check the GitHub Issues to see if it's a known problem or start a new issue providing as much detail as possible about your environment and the problem you are experiencing.
+
+## License
+
+This package inherits the license from the original `unitree_robotics/unitree_guide`. Please refer to the LICENSE file for more details.
+
+## Acknowledgements
+
+This ROS2 adaptation is based on the work done by Unitree Robotics. We thank them for their contributions to the robotics community and for providing a platform to learn and experiment with quadruped robots.
+```
+
+Remember to replace `<your-username>` with your actual GitHub username or the username/organization under which the repository will be hosted.
+
+Additionally, it's good practice to include instructions for obtaining any necessary dependencies, detailed build instructions, and an actual license file reference if required.
