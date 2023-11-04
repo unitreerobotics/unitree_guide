@@ -274,21 +274,24 @@
                 <plugin>gazebo_ros2_control/GazeboSystem</plugin>
             </hardware>
             <joint name="${name}_hip_joint">
-                <command_interface name="effort" />
+                <command_interface name="position" />
                 <state_interface name="position"/>
                 <state_interface name="velocity" />
+                <state_interface name="effort" />
             </joint>
 
             <joint name="${name}_thigh_joint">
-                <command_interface name="effort" />
+                <command_interface name="position" />
                 <state_interface name="position" />
                 <state_interface name="velocity" />
+                <state_interface name="effort" />
             </joint>
 
             <joint name="${name}_calf_joint">
-                <command_interface name="effort" />
+                <command_interface name="position" />
                 <state_interface name="position" />
                 <state_interface name="velocity" />
+                <state_interface name="effort" />
             </joint>
         </ros2_control>
     </xacro:macro>

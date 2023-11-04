@@ -2,7 +2,7 @@ import launch
 import os
 from ament_index_python.packages import get_package_share_directory
 from launch import LaunchDescription
-from launch.actions import DeclareLaunchArgument, IncludeLaunchDescription, SetEnvironmentVariable
+from launch.actions import DeclareLaunchArgument, IncludeLaunchDescription, SetEnvironmentVariable, RegisterEventHandler
 from launch.substitutions import LaunchConfiguration
 from launch_ros.actions import Node, PushRosNamespace, SetParameter, LoadComposableNodes
 from launch.launch_description_sources import AnyLaunchDescriptionSource
@@ -10,7 +10,7 @@ from launch.launch_description_sources import PythonLaunchDescriptionSource
 from launch_ros.substitutions import FindPackageShare
 from launch.actions import OpaqueFunction
 from launch.substitutions import Command
-
+from launch.event_handlers import OnProcessExit
 
 def launch_setup(context, *args, **kwargs):
 
@@ -18,8 +18,7 @@ def launch_setup(context, *args, **kwargs):
     y_spawn = LaunchConfiguration('y_spawn').perform(context)
     yaw_spawn = LaunchConfiguration('yaw_spawn').perform(context)
     rname = LaunchConfiguration('rname').perform(context)
-    use_sim_time_str =  LaunchConfiguration('use_sim_time').perform(context)
-    use_sim_time = use_sim_time_str.lower() in ['true', '1', 'yes', 't', 'y']
+    use_sim_time =  LaunchConfiguration('use_sim_time')
 
     print("###############################################################")
     print("SPAWN MULTI Robot="+str(rname) +
@@ -29,74 +28,59 @@ def launch_setup(context, *args, **kwargs):
     # ROBOT STATE PUBLISHER
     ####### DATA INPUT ##########
 
-    xacro_file = 'go1.urdf'
     package_description = rname + "_description"
-    robot_desc_path = os.path.join(get_package_share_directory(
-        package_description), "urdf", xacro_file)
-    print(robot_desc_path)
-    # robot_controllers = os.path.join(get_package_share_directory(
-    #     package_description), "config", "robot_control.yaml")
+    xacro_file = 'robot.xacro'
+    xacro_file = os.path.join(get_package_share_directory(package_description), 'xacro', xacro_file)
+    robot_description_config = Command(['xacro ', xacro_file, ' use_ros2_control:=', 'true', ' sim_mode:=', "true"])
 
-    robot_controllers = os.path.join(get_package_share_directory(
-        package_description), "config", "robot_control2.yaml")
     
-    robot_state_publisher_node = Node(
+    params = {'robot_description': robot_description_config, 'use_sim_time': True}
+    node_robot_state_publisher = Node(
         package='robot_state_publisher',
         executable='robot_state_publisher',
-        name='robot_state_publisher',
-        namespace= "",
-        parameters=[{'use_sim_time': use_sim_time,
-                     'robot_description': Command(['xacro ', robot_desc_path])}],
-        output="screen"
-    )
-
-    joint_state_publisher_node = Node(
-        package='joint_state_publisher',
-        executable='joint_state_publisher',
-        name='joint_state_publisher',
-        namespace= "",
-        parameters=[{'use_sim_time': use_sim_time,
-                     'robot_description': Command(['xacro ', robot_desc_path])}],
-        output="screen"
-    )
-
-        # # Load joint controllers
-    # controller_manager = Node(
-    #     package='controller_manager',
-    #     executable='ros2_control_node',
-    #     name = "controller_manager",    
-    #     namespace= "",
-    #     parameters=[{'use_sim_time': use_sim_time,
-    #                  'robot_description': robot_desc_path}, robot_controllers],
-    #     output='screen'
-    # )
-
-    # control_spawners = Node(
-    #     package='controller_manager',
-    #     executable='spawner',
-    #     name = "controller_spawner",    
-    #     namespace= "",
-    #     arguments=['FL_hip_controller',],
-    #     output='screen'
-    # )
-
-    # Spawn ROBOT Set Gazebo
-    start_gazebo_ros_spawner_cmd = Node(
-        package='gazebo_ros',
-        executable='spawn_entity.py',
-        name='spawn_entity',
         output='screen',
-        namespace= "",
-        arguments=['-entity',
-                   rname,
-                   '-x', x_spawn, '-y', y_spawn, '-z', "0.6", '-Y', yaw_spawn,
-                   '-topic', 'robot_description',
-                   '-timeout', '120.0'
-                   ]
+        parameters=[params]
     )
 
-    # return [robot_state_publisher_node, control_spawners,controller_manager,joint_state_publisher_node, start_gazebo_ros_spawner_cmd]
-    return [robot_state_publisher_node, joint_state_publisher_node, start_gazebo_ros_spawner_cmd]
+
+    # Run the spawner node from the gazebo_ros package. The entity name doesn't really matter if you only have a single robot.
+    spawn_entity = Node(package='gazebo_ros', executable='spawn_entity.py',
+                        arguments=['-topic', 'robot_description',
+                                   '-entity', rname,
+                                    '-x', "0.0",
+                                    '-y', "0.0",
+                                    '-z', "0.6",
+                                    '-Y', "0.0"],
+                                     output='screen')
+
+    joint_broad_spawner = Node(
+        package="controller_manager",
+        executable="spawner",
+        arguments=["joint_state_broadcaster"],
+    )
+
+    FL_hip_controller_spawner = Node(
+        package="controller_manager",
+        executable="spawner",
+        arguments=["FL_hip_controller"],
+    )
+
+
+    delayed_joint_broad_spawner =   RegisterEventHandler(
+        event_handler=OnProcessExit(
+            target_action=spawn_entity,
+            on_exit=[joint_broad_spawner],
+        )
+    )
+    delayed_FL_hip_controller_spawner =   RegisterEventHandler(
+        event_handler=OnProcessExit(
+            target_action=joint_broad_spawner,
+            on_exit=[FL_hip_controller_spawner],
+        )
+    )
+
+
+    return [node_robot_state_publisher, spawn_entity, delayed_joint_broad_spawner,delayed_FL_hip_controller_spawner]
 
 
 
@@ -138,17 +122,6 @@ def generate_launch_description():
     gazebo_client = IncludeLaunchDescription(
     PythonLaunchDescriptionSource(os.path.join(pkg_gazebo_ros, 'launch', 'gzclient.launch.py')))
 
-    # Set the robot_description parameter
-
-
-
-
-
-    # # Include the unitree_controller launch file
-    # set_ctrl_launch = IncludeLaunchDescription(
-    #     AnyLaunchDescriptionSource([LaunchConfiguration('unitree_controller'), '/launch/set_ctrl.launch']),
-    #     launch_arguments={'rname': rname}.items()
-    # )
 
     return LaunchDescription([
         wname,
@@ -159,9 +132,5 @@ def generate_launch_description():
         y_spawn_arg,
         yaw_spawn_arg,
         rname,
-        OpaqueFunction(function=launch_setup),
-        # urdf_spawner,
-        # controller_spawner,
-        # robot_state_publisher,
-        # set_ctrl_launch
+        OpaqueFunction(function=launch_setup)
     ])

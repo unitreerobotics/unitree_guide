@@ -1,0 +1,9 @@
+<library path="unitree_joint_controller">
+    <class name="unitree_joint_controller/UnitreeJointController" 
+           type="unitree_joint_controller::UnitreeJointController"           
+           base_class_type="controller_interface::ControllerInterface" >
+        <description>
+            The unitree joint controller.
+        </description>
+    </class>
+</library>

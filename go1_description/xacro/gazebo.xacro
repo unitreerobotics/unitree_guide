@@ -1,12 +1,12 @@
 <?xml version="1.0"?>
 <robot>
     <!-- ros_control plugin -->
-    <gazebo>
+    <!-- <gazebo>
         <plugin name="gazebo_ros_control" filename="libgazebo_ros_control.so">
             <robotNamespace>/go1_gazebo</robotNamespace>
             <robotSimType>gazebo_ros_control/DefaultRobotHWSim</robotSimType>
         </plugin>
-    </gazebo>
+    </gazebo> -->
 
     <!-- Show the trajectory of trunk center. -->
     <gazebo>
@@ -20,26 +20,14 @@
         </plugin>
     </gazebo>
 
-    <!-- Show the trajectory of foot. You can add another trajectory about another foot. -->
     <!-- <gazebo>
-        <plugin name="3dplot" filename="libLinkPlot3DPlugin.so">
-            <frequency>100</frequency>
-            <plot>
-                <link>FL_foot</link>
-                <pose>0 0 0 0 0 0</pose>
-                <material>Gazebo/Green</material>
-            </plot>
+        <plugin filename="libgazebo_ros_force.so" name="gazebo_ros_force">
+            <body_name>trunk</body_name>
+            <topic_name>/apply_force/trunk</topic_name>
         </plugin>
     </gazebo> -->
 
-    <gazebo>
-        <plugin filename="libgazebo_ros_force.so" name="gazebo_ros_force">
-            <bodyName>trunk</bodyName>
-            <topicName>/apply_force/trunk</topicName>
-        </plugin>
-    </gazebo>
-
-    <gazebo reference="imu_link">
+    <!-- <gazebo reference="imu_link">
         <gravity>true</gravity>
         <sensor name="imu_sensor" type="imu">
             <always_on>true</always_on>
@@ -57,80 +45,31 @@
             </plugin>
             <pose>0 0 0 0 0 0</pose>
         </sensor>
-    </gazebo>
-
-    <!-- Depth camera -->
-    <!-- <gazebo>
-        <plugin name="camera_plugin" filename="libgazebo_ros_openni_kinect.so">
-            <baseline>0.025</baseline>
-            <always_on>true</always_on>
-            <updateRate>0.0</updateRate>
-            <cameraName>unitree_camera_left</cameraName>
-            <frameName>depthCamera_link_left</frameName>
-            <imageTopicName>rgb/imageRaw_left</imageTopicName>
-            <depthImageTopicName>depth/imageRaw_left</depthImageTopicName>
-            <pointCloudTopicName>depth/points_left</pointCloudTopicName>
-            <cameraInfoTopicName>rgb/cameraInfo_left</cameraInfoTopicName>              
-            <depthImageCameraInfoTopicName>depth/cameraInfo_left</depthImageCameraInfoTopicName>            
-            <pointCloudCutoff>0.1</pointCloudCutoff>                
-            <pointCloudCutoffMax>1.5</pointCloudCutoffMax>                
-            <distortionK1>0.0</distortionK1>
-            <distortionK2>0.0</distortionK2>
-            <distortionK3>0.0</distortionK3>
-            <distortionT1>0.0</distortionT1>
-            <distortionT2>0.0</distortionT2>
-            <CxPrime>0.0</CxPrime>
-            <Cx>0.0045</Cx>
-            <Cy>0.0039</Cy>
-            <focalLength>0.004</focalLength>
-            <hackBaseline>0.0</hackBaseline>
-        </plugin>
     </gazebo> -->
 
-    <!-- <gazebo reference="depthCamera_link_left">
-        <sensor name="unitree_camera_left" type="depth_camera">
-            <update_rate>16</update_rate>
+    <gazebo reference="imu_link">
+        <sensor name="imu_controller" type="imu">
             <always_on>true</always_on>
-            <visualize>true</visualize>
-            <camera>
-                <horizontal_fov>2.094</horizontal_fov>
-                <image>
-                    <width>928</width>
-                    <height>800</height>
-                    <format>R8G8B8</format>
-                </image>
-                <depth_camera></depth_camera>
-                <clip>
-                    <near>0.1</near>
-                    <far>100</far>
-                </clip>
-            </camera>
-            <plugin name="camera_plugin" filename="libgazebo_ros_openni_kinect.so">
-                <baseline>0.025</baseline>
-                <always_on>true</always_on>
-                <updateRate>0.0</updateRate>
-                <cameraName>unitree_camera_left</cameraName>
-                <frameName>depthCamera_link_left</frameName>
-                <imageTopicName>rgb/imageRaw_left</imageTopicName>
-                <depthImageTopicName>depth/imageRaw_left</depthImageTopicName>
-                <pointCloudTopicName>depth/points_left</pointCloudTopicName>
-                <cameraInfoTopicName>rgb/cameraInfo_left</cameraInfoTopicName>              
-                <depthImageCameraInfoTopicName>depth/cameraInfo_left</depthImageCameraInfoTopicName>            
-                <pointCloudCutoff>0.1</pointCloudCutoff>                
-                <pointCloudCutoffMax>1.5</pointCloudCutoffMax>                
-                <distortionK1>0.0</distortionK1>
-                <distortionK2>0.0</distortionK2>
-                <distortionK3>0.0</distortionK3>
-                <distortionT1>0.0</distortionT1>
-                <distortionT2>0.0</distortionT2>
-                <CxPrime>0.0</CxPrime>
-                <Cx>0.0045</Cx>
-                <Cy>0.0039</Cy>
-                <focalLength>0.004</focalLength>
-                <hackBaseline>0.0</hackBaseline>
+            <update_rate>1000</update_rate>
+            <plugin name="gazebo_ros_imu_sensor" filename="libgazebo_ros_imu_sensor.so">
+                <ros>
+                    <namespace>/imu</namespace>
+                    <argument>~/out:=data</argument>
+                </ros>
+                <!-- <updateRate>50.0</updateRate>
+                <bodyName>imu_link</bodyName>
+                <topicName>imu/data</topicName>
+                <accelDrift>0.005 0.005 0.005</accelDrift>
+                <accelGaussianNoise>0.005 0.005 0.005</accelGaussianNoise>
+                <rateDrift>0.005 0.005 0.005 </rateDrift>
+                <rateGaussianNoise>0.005 0.005 0.005 </rateGaussianNoise>
+                <headingDrift>0.005</headingDrift>
+                <headingGaussianNoise>0.005</headingGaussianNoise> -->
             </plugin>
         </sensor>
-    </gazebo> -->
+    </gazebo>
+
+
 
   <gazebo reference="depthCamera_link_left">
     <sensor name="camera_link_camera" type="depth">
@@ -179,7 +118,7 @@
 
 
     <!-- Foot contacts. -->
-    <gazebo reference="FR_calf">
+    <!-- <gazebo reference="FR_calf">
         <sensor name="FR_foot_contact" type="contact">
         <update_rate>100</update_rate>
         <plugin name="contactPlugin" filename="libunitreeFootContactPlugin.so"/>
@@ -214,10 +153,10 @@
             <collision>RL_calf_fixed_joint_lump__RL_foot_collision_1</collision>
         </contact>
         </sensor>
-    </gazebo>
+    </gazebo> -->
 
     <!-- Visualization of Foot contacts. -->
-    <gazebo reference="FR_foot">
+    <!-- <gazebo reference="FR_foot">
         <visual>
             <plugin name="drawForcePlugin" filename="libunitreeDrawForcePlugin.so">
                 <topicName>FR_foot_contact</topicName>
@@ -244,7 +183,7 @@
                 <topicName>RL_foot_contact</topicName>
             </plugin>
         </visual>
-    </gazebo>
+    </gazebo> -->
 
     <gazebo reference="base">
         <material>Gazebo/Green</material>
@@ -270,17 +209,20 @@
         <material>Gazebo/Red</material>
     </gazebo>
 
-    <!-- FL leg -->
+    <!-- fl leg -->
+    
+
+
     <gazebo reference="FL_hip">
         <mu1>0.2</mu1>
         <mu2>0.2</mu2>
-        <material>Gazebo/DarkGrey</material>
+        <material>Gazebo/Gray</material>
     </gazebo>
     <gazebo reference="FL_thigh">
         <mu1>0.2</mu1>
         <mu2>0.2</mu2>
         <self_collide>1</self_collide>
-        <material>Gazebo/DarkGrey</material>
+        <material>Gazebo/White</material>
         <kp  value="1000000.0"/>
         <kd  value="1.0"/>
     </gazebo>
@@ -288,27 +230,28 @@
         <mu1>0.2</mu1>
         <mu2>0.2</mu2>
         <self_collide>1</self_collide>
+        <material>Gazebo/White</material>
     </gazebo>
     <gazebo reference="FL_foot">
         <mu1>0.6</mu1>
         <mu2>0.6</mu2>
         <self_collide>1</self_collide>
-        <material>Gazebo/DarkGrey</material>
+        <material>Gazebo/White</material>
         <kp  value="1000000.0"/>
         <kd  value="1.0"/>
     </gazebo>
 
-    <!-- FR leg -->
+    <!-- fr leg -->
     <gazebo reference="FR_hip">
         <mu1>0.2</mu1>
         <mu2>0.2</mu2>
-        <material>Gazebo/DarkGrey</material>
+        <material>Gazebo/Gray</material>
     </gazebo>
     <gazebo reference="FR_thigh">
         <mu1>0.2</mu1>
         <mu2>0.2</mu2>
         <self_collide>1</self_collide>
-        <material>Gazebo/DarkGrey</material>
+        <material>Gazebo/White</material>
         <kp  value="1000000.0"/>
         <kd  value="1.0"/>
     </gazebo>
@@ -316,12 +259,13 @@
         <mu1>0.2</mu1>
         <mu2>0.2</mu2>
         <self_collide>1</self_collide>
+        <material>Gazebo/White</material>
     </gazebo>
     <gazebo reference="FR_foot">
         <mu1>0.6</mu1>
         <mu2>0.6</mu2>
         <self_collide>1</self_collide>
-        <material>Gazebo/DarkGrey</material>
+        <material>Gazebo/White</material>
         <kp  value="1000000.0"/>
         <kd  value="1.0"/>
     </gazebo>
@@ -330,13 +274,13 @@
     <gazebo reference="RL_hip">
         <mu1>0.2</mu1>
         <mu2>0.2</mu2>
-        <material>Gazebo/DarkGrey</material>
+        <material>Gazebo/Gray</material>
     </gazebo>
     <gazebo reference="RL_thigh">
         <mu1>0.2</mu1>
         <mu2>0.2</mu2>
         <self_collide>1</self_collide>
-        <material>Gazebo/DarkGrey</material>
+        <material>Gazebo/White</material>
         <kp  value="1000000.0"/>
         <kd  value="1.0"/>
     </gazebo>
@@ -349,7 +293,7 @@
         <mu1>0.6</mu1>
         <mu2>0.6</mu2>
         <self_collide>1</self_collide>
-        <material>Gazebo/DarkGrey</material>
+        <material>Gazebo/White</material>
         <kp  value="1000000.0"/>
         <kd  value="1.0"/>
     </gazebo>
@@ -358,13 +302,13 @@
     <gazebo reference="RR_hip">
         <mu1>0.2</mu1>
         <mu2>0.2</mu2>
-        <material>Gazebo/DarkGrey</material>
+        <material>Gazebo/Gray</material>
     </gazebo>
     <gazebo reference="RR_thigh">
         <mu1>0.2</mu1>
         <mu2>0.2</mu2>
         <self_collide>1</self_collide>
-        <material>Gazebo/DarkGrey</material>
+        <material>Gazebo/White</material>
         <kp  value="1000000.0"/>
         <kd  value="1.0"/>
     </gazebo>
@@ -372,14 +316,44 @@
         <mu1>0.2</mu1>
         <mu2>0.2</mu2>
         <self_collide>1</self_collide>
+        <material>Gazebo/White</material>
     </gazebo>
     <gazebo reference="RR_foot">
         <mu1>0.6</mu1>
         <mu2>0.6</mu2>
         <self_collide>1</self_collide>
-        <material>Gazebo/DarkGrey</material>
+        <material>Gazebo/White</material>
         <kp  value="1000000.0"/>
         <kd  value="1.0"/>
     </gazebo>
 
+
+
+    <gazebo>
+      <plugin name="p3d_base_controller" filename="libgazebo_ros_p3d.so">
+        <ros>
+            <argument>odom:=odom/ground_truth</argument>
+        </ros>
+
+        <body_name>trunk</body_name>
+        <frame_name>world</frame_name>
+        <update_rate>10.0</update_rate>
+        <xyz_offset>0 0 0</xyz_offset>
+        <rpy_offset>0 0 0</rpy_offset>
+        <gaussian_noise>0.01</gaussian_noise>
+    </plugin>
+    </gazebo>
+
+    <!-- <gazebo>
+        <plugin filename="libgazebo_ros2_control.so" name="gazebo_ros2_control">
+        <parameters>$(find go1_description)/config/ros_control/ros_control.yaml</parameters>
+      </plugin>
+    </gazebo> -->
+
+
+    <gazebo>
+        <plugin filename="libgazebo_ros2_control.so" name="gazebo_ros2_control">
+        <parameters>$(find go1_description)/config/ros_control/go1_controller.yaml</parameters>
+      </plugin>
+    </gazebo>
 </robot>

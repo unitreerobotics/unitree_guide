@@ -18,7 +18,7 @@
             <visual>
             <origin xyz="0 0 0" rpy="0 0 0"/>
             <geometry>
-                <mesh filename="package://meshes/ultraSound.dae" scale="1 1 1"/>
+                <mesh filename="file://$(find go1_description)/meshes/ultraSound.dae" scale="1 1 1"/>
             </geometry>
             <material name="black"/>
             </visual>

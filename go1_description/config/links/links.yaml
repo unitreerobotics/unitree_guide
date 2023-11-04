@@ -1,0 +1,27 @@
+/**:
+  ros__parameters:
+    links_map:
+        base: base
+        left_front:
+          - FL_hip
+          - FL_thigh
+          - FL_calf
+          - FL_foot
+
+        right_front:
+          - FR_hip
+          - FR_thigh
+          - FR_calf
+          - FR_foot
+
+        left_hind:
+          - RL_hip
+          - RL_thigh
+          - RL_calf
+          - RL_foot
+
+        right_hind:
+          - RR_hip
+          - RR_thigh
+          - RR_calf
+          - RR_foot

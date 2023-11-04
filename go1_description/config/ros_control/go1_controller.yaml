@@ -2,44 +2,45 @@ controller_manager:
   ros__parameters:
     update_rate: 1000  # Hz
 
-    joint_state_broadcaster:
+    joint_states_controller:
       type: joint_state_broadcaster/JointStateBroadcaster
 
     FL_hip_controller:
-      type: unitree_legged_control/UnitreeJointController
+      type: unitree_joint_controller/UnitreeJointController
     FL_thigh_controller:
-      type: unitree_legged_control/UnitreeJointController
+      type: unitree_joint_controller/UnitreeJointController
     FL_calf_controller:
-      type: unitree_legged_control/UnitreeJointController
+      type: unitree_joint_controller/UnitreeJointController
 
     FR_hip_controller:
-      type: unitree_legged_control/UnitreeJointController
+      type: unitree_joint_controller/UnitreeJointController
     FR_thigh_controller:
-      type: unitree_legged_control/UnitreeJointController
+      type: unitree_joint_controller/UnitreeJointController
     FR_calf_controller:
-      type: unitree_legged_control/UnitreeJointController
+      type: unitree_joint_controller/UnitreeJointController
 
     RL_hip_controller:
-      type: unitree_legged_control/UnitreeJointController
+      type: unitree_joint_controller/UnitreeJointController
     RL_thigh_controller:
-      type: unitree_legged_control/UnitreeJointController
+      type: unitree_joint_controller/UnitreeJointController
     RL_calf_controller:
-      type: unitree_legged_control/UnitreeJointController
+      type: unitree_joint_controller/UnitreeJointController
 
     RR_hip_controller:
-      type: unitree_legged_control/UnitreeJointController
+      type: unitree_joint_controller/UnitreeJointController
     RR_thigh_controller:
-      type: unitree_legged_control/UnitreeJointController
+      type: unitree_joint_controller/UnitreeJointController
     RR_calf_controller:
-      type: unitree_legged_control/UnitreeJointController
+      type: unitree_joint_controller/UnitreeJointController
 
 FL_hip_controller:
   ros__parameters:
     joints:
       - FL_hip_joint
     command_interfaces:
-      - effort
+      - position
     state_interfaces:
+      - effort
       - position
       - velocity
     gains:
@@ -50,8 +51,9 @@ FL_thigh_controller:
     joints:
       - FL_thigh_joint
     command_interfaces:
-      - effort
+      - position
     state_interfaces:
+      - effort
       - position
       - velocity
     gains:
@@ -62,8 +64,9 @@ FL_calf_controller:
     joints:
       - FL_calf_joint
     command_interfaces:
-      - effort
+      - position
     state_interfaces:
+      - effort
       - position
       - velocity
     gains:
@@ -74,8 +77,9 @@ FR_hip_controller:
     joints:
       - FR_hip_joint
     command_interfaces:
-      - effort
+      - position
     state_interfaces:
+      - effort
       - position
       - velocity
     gains:
@@ -86,8 +90,9 @@ FR_thigh_controller:
     joints:
       - FR_thigh_joint
     command_interfaces:
-      - effort
+      - position
     state_interfaces:
+      - effort
       - position
       - velocity
     gains:
@@ -98,8 +103,9 @@ FR_calf_controller:
     joints:
       - FR_calf_joint
     command_interfaces:
-      - effort
+      - position
     state_interfaces:
+      - effort
       - position
       - velocity
     gains:
@@ -110,8 +116,9 @@ RL_hip_controller:
     joints:
       - RL_hip_joint
     command_interfaces:
-      - effort
+      - position
     state_interfaces:
+      - effort
       - position
       - velocity
     gains:
@@ -122,8 +129,9 @@ RL_thigh_controller:
     joints:
       - RL_thigh_joint
     command_interfaces:
-      - effort
+      - position
     state_interfaces:
+      - effort
       - position
       - velocity
     gains:
@@ -134,8 +142,9 @@ RL_calf_controller:
     joints:
       - RL_calf_joint
     command_interfaces:
-      - effort
+      - position
     state_interfaces:
+      - effort
       - position
       - velocity
     gains:
@@ -146,8 +155,9 @@ RR_hip_controller:
     joints:
       - RR_hip_joint
     command_interfaces:
-      - effort
+      - position
     state_interfaces:
+      - effort
       - position
       - velocity
     gains:
@@ -158,8 +168,9 @@ RR_thigh_controller:
     joints:
       - RR_thigh_joint
     command_interfaces:
-      - effort
+      - position
     state_interfaces:
+      - effort
       - position
       - velocity
     gains:
@@ -170,8 +181,9 @@ RR_calf_controller:
     joints:
       - RR_calf_joint
     command_interfaces:
-      - effort
+      - position
     state_interfaces:
+      - effort
       - position
       - velocity
     gains:

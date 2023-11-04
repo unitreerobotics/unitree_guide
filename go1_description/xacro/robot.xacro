@@ -6,7 +6,7 @@
 
     <xacro:include filename="$(find go1_description)/xacro/const.xacro"/>
     <xacro:include filename="$(find go1_description)/xacro/materials.xacro"/>
-    <xacro:include filename="$(find go1_description)/xacro/leg.xacro"/>
+    <xacro:include filename="$(find go1_description)/xacro/leg2.xacro"/>
     <!-- <xacro:include filename="$(find go1_description)/xacro/stairs.xacro"/> -->
     <xacro:include filename="$(find go1_description)/xacro/gazebo.xacro"/>
     <xacro:include filename="$(find go1_description)/xacro/depthCamera.xacro"/>
@@ -47,7 +47,7 @@
         <visual>
             <origin rpy="0 0 0" xyz="0 0 0"/>
             <geometry>
-                <mesh filename="package://meshes/trunk.dae" scale="1 1 1"/>
+                <mesh filename="file://$(find go1_description)/meshes/trunk.dae" scale="1 1 1"/>
             </geometry>
             <!-- <material name="orange"/> -->
         </visual>
@@ -94,7 +94,7 @@
         </collision>
     </link>
 
-    <xacro:leg name="FR" mirror="-1" mirror_dae= "False" front_hind="1"  front_hind_dae="True"  />
+    <xacro:leg name="FR" mirror="-1" mirror_dae="False"  front_hind="1"  front_hind_dae="True"  />
     <xacro:leg name="FL" mirror="1"  mirror_dae="True"   front_hind="1"  front_hind_dae="True"  />
     <xacro:leg name="RR" mirror="-1" mirror_dae="False"  front_hind="-1" front_hind_dae="False" />
     <xacro:leg name="RL" mirror="1"  mirror_dae="True"   front_hind="-1" front_hind_dae="False" />
