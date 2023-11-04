@@ -1,0 +1,35 @@
+<!-- <?xml version="1.0"?>
+
+<package format="2">
+  <name>unitree_legged_msgs</name>
+  <version>0.0.0</version>
+  <description>
+    The test messgaes package.
+  </description>
+  <maintainer email="laikago@unitree.cc">unitree</maintainer>
+  <license>TODO</license>
+  
+  <buildtool_depend>catkin</buildtool_depend>
+  <depend>message_runtime</depend>
+  <depend>message_generation</depend>
+  <depend>std_msgs</depend>
+  <depend>geometry_msgs</depend>
+  <depend>sensor_msgs</depend>
+  
+</package> -->
+
+<package format="3">
+  <name>ros2_unitree_legged_msgs</name>
+  <version>0.4.0</version>
+  <description>Contains message and service definitions used by the examples.</description>
+  <maintainer email="dthomas@osrfoundation.org">Dirk Thomas</maintainer>
+  <license>Apache License 2.0</license>
+  <buildtool_depend>ament_cmake</buildtool_depend>
+  <buildtool_depend>rosidl_default_generators</buildtool_depend>
+  <exec_depend>rosidl_default_runtime</exec_depend>
+  <member_of_group>rosidl_interface_packages</member_of_group>
+  <export>
+    <build_type>ament_cmake</build_type>
+    <!-- <ros1_bridge mapping_rules="mapping_rules.yaml"/> -->
+  </export>
+</package>
