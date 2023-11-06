@@ -4,9 +4,10 @@
 #ifdef COMPILE_WITH_MOVE_BASE
 
 #include "FSM/State_move_base.h"
-
+#include <thread>
+#include <memory>
 State_move_base::State_move_base(CtrlComponents *ctrlComp)
-    :State_Trotting(ctrlComp){
+: State_Trotting(ctrlComp), Node("state_move_base"){
     _stateName = FSMStateName::MOVE_BASE;
     _stateNameString = "move_base";
     initRecv();
@@ -26,17 +27,27 @@ FSMStateName State_move_base::checkChange(){
 
 void State_move_base::getUserCmd(){
     setHighCmd(_vx, _vy, _wz);
-    ros::spinOnce();
 }
 
-void State_move_base::twistCallback(const geometry_msgs::Twist& msg){
-    _vx = msg.linear.x;
-    _vy = msg.linear.y;
-    _wz = msg.angular.z;
+
+
+void State_move_base::twistCallback(const geometry_msgs::msg::Twist::SharedPtr msg) {
+    RCLCPP_INFO(rclcpp::get_logger("rclcpp"), "\033[1;32m----> Got a cmd vel.\033[0m");
+    _vx = msg->linear.x;
+    _vy = msg->linear.y;
+    _wz = msg->angular.z;
+    
 }
 
-void State_move_base::initRecv(){
-    _cmdSub = _nm.subscribe("/cmd_vel", 1, &State_move_base::twistCallback, this);
+void State_move_base::initRecv() {
+    _cmdSub = this->create_subscription<geometry_msgs::msg::Twist>(
+        "/cmd_vel", 10, std::bind(&State_move_base::twistCallback, this, std::placeholders::_1));
+        // Spin up a new thread to handle callbacks for this node.
+    std::thread([this]() {
+        rclcpp::executors::SingleThreadedExecutor executor;
+        executor.add_node(this->get_node_base_interface());
+        executor.spin();
+    }).detach();
 }
 
 #endif  // COMPILE_WITH_MOVE_BASE

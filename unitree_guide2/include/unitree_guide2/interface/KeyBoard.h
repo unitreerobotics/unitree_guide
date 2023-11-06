@@ -13,6 +13,11 @@
 #include <termios.h>
 #include "interface/CmdPanel.h"
 #include "common/mathTools.h"
+#include <chrono>
+#include <unistd.h>
+#include <cstdio>
+#include <cstring>
+
 
 class KeyBoard : public CmdPanel{
 public:

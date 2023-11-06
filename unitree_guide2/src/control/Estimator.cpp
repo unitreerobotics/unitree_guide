@@ -116,9 +116,10 @@ void Estimator::_initSystem(){
 
 
     /* ROS odometry publisher */
-    #ifdef COMPILE_WITH_MOVE_BASE
-        _pub = _nh.advertise<nav_msgs::Odometry>("odom", 1);
-    #endif  // COMPILE_WITH_MOVE_BASE
+    #if defined(COMPILE_WITH_MOVE_BASE) && defined(COMPILE_WITH_PUBLISH_ODOM)
+        _nh = rclcpp::Node::make_shared("odom_pub");
+        _odom_publisher = _nh->create_publisher<nav_msgs::msg::Odometry>("odom", rclcpp::QoS(rclcpp::KeepLast(1)));
+    #endif  // COMPILE_WITH_MOVE_BASE && COMPILE_WITH_PUBLISH_ODOM
 }
 
 void Estimator::run(){
@@ -168,50 +169,50 @@ void Estimator::run(){
     _vyFilter->addValue(_xhat(4));
     _vzFilter->addValue(_xhat(5));
 
-    #ifdef COMPILE_WITH_MOVE_BASE
-        if(_count % ((int)( 1.0/(_dt*_pubFreq))) == 0){
-            _currentTime = ros::Time::now();
+    #if defined(COMPILE_WITH_MOVE_BASE) && defined(COMPILE_WITH_PUBLISH_ODOM)
+        if(_count % ((int)( 1.0/(_dt*_pub_freq))) == 0){
+            _current_time = _nh->get_clock()->now();
             /* tf */
-            _odomTF.header.stamp = _currentTime;
-            _odomTF.header.frame_id = "odom";
-            _odomTF.child_frame_id  = "base";
+            _odom_tf.header.stamp = _nh->get_clock()->now();
+            _odom_tf.header.frame_id = "odom";
+            _odom_tf.child_frame_id  = "base";
 
-            _odomTF.transform.translation.x = _xhat(0);
-            _odomTF.transform.translation.y = _xhat(1);
-            _odomTF.transform.translation.z = _xhat(2);
-            _odomTF.transform.rotation.w = _lowState->imu.quaternion[0];
-            _odomTF.transform.rotation.x = _lowState->imu.quaternion[1];
-            _odomTF.transform.rotation.y = _lowState->imu.quaternion[2];
-            _odomTF.transform.rotation.z = _lowState->imu.quaternion[3];
+            _odom_tf.transform.translation.x = _xhat(0);
+            _odom_tf.transform.translation.y = _xhat(1);
+            _odom_tf.transform.translation.z = _xhat(2);
+            _odom_tf.transform.rotation.w = _lowState->imu.quaternion[0];
+            _odom_tf.transform.rotation.x = _lowState->imu.quaternion[1];
+            _odom_tf.transform.rotation.y = _lowState->imu.quaternion[2];
+            _odom_tf.transform.rotation.z = _lowState->imu.quaternion[3];
 
-            _odomBroadcaster.sendTransform(_odomTF);
+            _odom_broadcaster->sendTransform(_odom_tf);
 
             /* odometry */
-            _odomMsg.header.stamp = _currentTime;
-            _odomMsg.header.frame_id = "odom";
+            _odom_msg.header.stamp = _current_time;
+            _odom_msg.header.frame_id = "odom";
 
-            _odomMsg.pose.pose.position.x = _xhat(0);
-            _odomMsg.pose.pose.position.y = _xhat(1);
-            _odomMsg.pose.pose.position.z = _xhat(2);
+            _odom_msg.pose.pose.position.x = _xhat(0);
+            _odom_msg.pose.pose.position.y = _xhat(1);
+            _odom_msg.pose.pose.position.z = _xhat(2);
 
-            _odomMsg.pose.pose.orientation.w = _lowState->imu.quaternion[0];
-            _odomMsg.pose.pose.orientation.x = _lowState->imu.quaternion[1];
-            _odomMsg.pose.pose.orientation.y = _lowState->imu.quaternion[2];
-            _odomMsg.pose.pose.orientation.z = _lowState->imu.quaternion[3];
-            _odomMsg.pose.covariance = _odom_pose_covariance;
+            _odom_msg.pose.pose.orientation.w = _lowState->imu.quaternion[0];
+            _odom_msg.pose.pose.orientation.x = _lowState->imu.quaternion[1];
+            _odom_msg.pose.pose.orientation.y = _lowState->imu.quaternion[2];
+            _odom_msg.pose.pose.orientation.z = _lowState->imu.quaternion[3];
+            _odom_msg.pose.covariance = _odom_pose_covariance;
 
-            _odomMsg.child_frame_id = "base";
+            _odom_msg.child_frame_id = "base";
             _velBody = _rotMatB2G.transpose() * _xhat.segment(3, 3);
             _wBody   = _lowState->imu.getGyro();
-            _odomMsg.twist.twist.linear.x = _velBody(0);
-            _odomMsg.twist.twist.linear.y = _velBody(1);
-            _odomMsg.twist.twist.linear.z = _velBody(2);
-            _odomMsg.twist.twist.angular.x = _wBody(0);
-            _odomMsg.twist.twist.angular.y = _wBody(1);
-            _odomMsg.twist.twist.angular.z = _wBody(2);
-            _odomMsg.twist.covariance = _odom_twist_covariance;
+            _odom_msg.twist.twist.linear.x = _velBody(0);
+            _odom_msg.twist.twist.linear.y = _velBody(1);
+            _odom_msg.twist.twist.linear.z = _velBody(2);
+            _odom_msg.twist.twist.angular.x = _wBody(0);
+            _odom_msg.twist.twist.angular.y = _wBody(1);
+            _odom_msg.twist.twist.angular.z = _wBody(2);
+            _odom_msg.twist.covariance = _odom_twist_covariance;
 
-            _pub.publish(_odomMsg);
+            _odom_publisher->publish(_odom_msg);
             _count = 1;
         }
         ++_count;

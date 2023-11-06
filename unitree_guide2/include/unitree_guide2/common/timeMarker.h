@@ -22,8 +22,8 @@ inline double getTimeSecond(){
 //等待函数，微秒级，从startTime开始等待waitTime微秒
 inline void absoluteWait(long long startTime, long long waitTime){
     if(getSystemTime() - startTime > waitTime){
-        std::cout << "[WARNING] The waitTime=" << waitTime << " of function absoluteWait is not enough!" << std::endl
-        << "The program has already cost " << getSystemTime() - startTime << "us." << std::endl;
+        // std::cout << "[WARNING] The waitTime=" << waitTime << " of function absoluteWait is not enough!" << std::endl
+        // << "The program has already cost " << getSystemTime() - startTime << "us." << std::endl;
     }
     while(getSystemTime() - startTime < waitTime){
         usleep(50);

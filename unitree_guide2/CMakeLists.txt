@@ -11,8 +11,8 @@ set(PLATFORM amd64)
 set(SIMULATION ON)
 set(REAL_ROBOT OFF)
 set(DEBUG OFF)
-set(MOVE_BASE OFF)
-
+set(MOVE_BASE ON)
+set(PUBLISH_ODOM OFF)
 if(NOT DEFINED ROBOT_TYPE)
     message(FATAL_ERROR "[CMake ERROR] Have not defined ROBOT_TYPE")
 endif()
@@ -29,10 +29,17 @@ if(((SIMULATION) AND (REAL_ROBOT)) OR ((NOT SIMULATION) AND (NOT REAL_ROBOT)))
     message(FATAL_ERROR "[CMake ERROR] The SIMULATION and REAL_ROBOT can only be one ON one OFF")
 endif()
 
-if(SIMULATION OR MOVE_BASE)
+if(SIMULATION)
     add_definitions(-DRUN_ROS)
 endif()
 
+if(MOVE_BASE)
+    add_definitions(-DCOMPILE_WITH_MOVE_BASE)
+endif()
+
+if(PUBLISH_ODOM)
+    add_definitions(-DCOMPILE_WITH_PUBLISH_ODOM)
+endif()
 set(CMAKE_CXX_STANDARD 11)
 find_package(Boost REQUIRED)
 
@@ -54,6 +61,7 @@ find_package(sensor_msgs REQUIRED)
 find_package(tf2 REQUIRED)
 find_package(tf2_ros REQUIRED)
 find_package(ros2_unitree_legged_msgs REQUIRED)
+find_package(nav_msgs REQUIRED)
 if(SIMULATION)
   add_definitions(-DCOMPILE_WITH_SIMULATION)
   find_package(gazebo_ros_pkgs REQUIRED)
@@ -67,6 +75,7 @@ include_directories(
     ${Boost_INCLUDE_DIRS}
     ${rclcpp_INCLUDE_DIRS}
     ${tf2_INCLUDE_DIRS}
+    ${tf2_ros_INCLUDE_DIRS}
     ${tf2_ros_INCLUDE_DIRS}
 )
 
@@ -91,7 +100,7 @@ file(GLOB_RECURSE SRC_LIST
 )
 
 add_executable(junior_ctrl src/main.cpp ${SRC_LIST})
-ament_target_dependencies(junior_ctrl rclcpp  sensor_msgs std_msgs tf2 tf2_ros geometry_msgs ros2_unitree_legged_msgs)
+ament_target_dependencies(junior_ctrl rclcpp  sensor_msgs std_msgs tf2 tf2_ros geometry_msgs ros2_unitree_legged_msgs nav_msgs)
 
 if(DEBUG)
     target_include_directories(junior_ctrl PRIVATE ${Python3_INCLUDE_DIRS} ${Python3_NumPy_INCLUDE_DIRS})

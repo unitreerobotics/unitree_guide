@@ -4,6 +4,7 @@
 #include "interface/KeyBoard.h"
 #include <iostream>
 
+
 KeyBoard::KeyBoard(){
     userCmd = UserCommand::NONE;
     userValue.setZero();
@@ -88,11 +89,19 @@ void* KeyBoard::runKeyBoard(void *arg){
 }
 
 void* KeyBoard::run(void *arg){
+    auto start = std::chrono::steady_clock::now();
+    bool fixedStand = false, moveBase = false;
+
     while(1){
+        struct timeval tv;
         FD_ZERO(&set);
         FD_SET( fileno( stdin ), &set );
 
-        res = select( fileno( stdin )+1, &set, NULL, NULL, NULL);
+        // Set up the struct timeval for the timeout.
+        tv.tv_sec = 0; // 0 seconds
+        tv.tv_usec = 1000; // 1000 microseconds = 1 millisecond
+
+        res = select( fileno( stdin )+1, &set, NULL, NULL,  &tv);
 
         if(res > 0){
             ret = read( fileno( stdin ), &_c, 1 );
@@ -101,7 +110,24 @@ void* KeyBoard::run(void *arg){
                 changeValue();
             _c = '\0';
         }
-        usleep(1000);
+
+        auto now = std::chrono::steady_clock::now();
+        auto elapsed = std::chrono::duration_cast<std::chrono::seconds>(now - start).count();
+
+#ifdef COMPILE_WITH_MOVE_BASE
+        // After 2 seconds, say "hello"
+        if(elapsed >= 2 && !fixedStand){
+            userCmd = UserCommand::L2_A;
+            fixedStand = true; // Ensures "hello" is printed only once.
+        }
+
+        // After 5 seconds, say "ready"
+        if(elapsed >= 7 && !moveBase){
+             userCmd = UserCommand::L2_Y;
+            moveBase = true; // Ensures "ready" is printed only once.
+        }
+#endif
+        usleep(1000); // Sleep for 1 millisecond before checking again.
     }
     return NULL;
 }

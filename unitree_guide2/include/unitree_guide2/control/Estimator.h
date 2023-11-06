@@ -16,13 +16,13 @@
 #endif  // COMPILE_DEBUG
 
 #ifdef COMPILE_WITH_MOVE_BASE
-    #include <ros/ros.h>
-    #include <ros/time.h>
-    #include <geometry_msgs/TransformStamped.h>
-    #include <tf/transform_broadcaster.h>
-    #include <nav_msgs/Odometry.h>
-    #include <geometry_msgs/Twist.h>
-    #include <boost/array.hpp>
+    // ROS 2 headers
+    #include <rclcpp/rclcpp.hpp>
+    #include <geometry_msgs/msg/transform_stamped.hpp>
+    #include <tf2_ros/transform_broadcaster.h>
+    #include <nav_msgs/msg/odometry.hpp>
+    #include <geometry_msgs/msg/twist.hpp>
+    #include <array>
 #endif  // COMPILE_WITH_MOVE_BASE
 
 class Estimator{
@@ -97,23 +97,24 @@ private:
     PyPlot *_testPlot;
 #endif  // COMPILE_DEBUG
 #ifdef COMPILE_WITH_MOVE_BASE
-    ros::NodeHandle _nh;
-    ros::Publisher _pub;
-    tf::TransformBroadcaster _odomBroadcaster;
-    ros::Time _currentTime;
-    geometry_msgs::TransformStamped _odomTF;
-    nav_msgs::Odometry _odomMsg;
+    rclcpp::Node::SharedPtr _nh;
+    rclcpp::Publisher<nav_msgs::msg::Odometry>::SharedPtr _odom_publisher;
+    std::unique_ptr<tf2_ros::TransformBroadcaster> _odom_broadcaster;
+
+    rclcpp::Time _current_time;
+    geometry_msgs::msg::TransformStamped _odom_tf;
+    nav_msgs::msg::Odometry _odom_msg;
     int _count = 0;
-    double _pubFreq = 10;
+    double _pub_freq = 10;
 
     Vec3 _velBody, _wBody;
-    boost::array<double, 36> _odom_pose_covariance = {1e-9, 0, 0, 0, 0, 0, 
+    std::array<double, 36> _odom_pose_covariance = {1e-9, 0, 0, 0, 0, 0, 
                                         0, 1e-3, 1e-9, 0, 0, 0, 
                                         0, 0, 1e6, 0, 0, 0,
                                         0, 0, 0, 1e6, 0, 0, 
                                         0, 0, 0, 0, 1e6, 0, 
                                         0, 0, 0, 0, 0, 1e-9};
-    boost::array<double, 36> _odom_twist_covariance = {1e-9, 0, 0, 0, 0, 0, 
+    std::array<double, 36> _odom_twist_covariance = {1e-9, 0, 0, 0, 0, 0, 
                                         0, 1e-3, 1e-9, 0, 0, 0, 
                                         0, 0, 1e6, 0, 0, 0, 
                                         0, 0, 0, 1e6, 0, 0, 
