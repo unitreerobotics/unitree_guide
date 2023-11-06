@@ -38,7 +38,7 @@ FL_hip_controller:
     joints:
       - FL_hip_joint
     command_interfaces:
-      - position
+      - effort
     state_interfaces:
       - effort
       - position
@@ -51,7 +51,7 @@ FL_thigh_controller:
     joints:
       - FL_thigh_joint
     command_interfaces:
-      - position
+      - effort
     state_interfaces:
       - effort
       - position
@@ -64,7 +64,7 @@ FL_calf_controller:
     joints:
       - FL_calf_joint
     command_interfaces:
-      - position
+      - effort
     state_interfaces:
       - effort
       - position
@@ -77,7 +77,7 @@ FR_hip_controller:
     joints:
       - FR_hip_joint
     command_interfaces:
-      - position
+      - effort
     state_interfaces:
       - effort
       - position
@@ -90,7 +90,7 @@ FR_thigh_controller:
     joints:
       - FR_thigh_joint
     command_interfaces:
-      - position
+      - effort
     state_interfaces:
       - effort
       - position
@@ -103,7 +103,7 @@ FR_calf_controller:
     joints:
       - FR_calf_joint
     command_interfaces:
-      - position
+      - effort
     state_interfaces:
       - effort
       - position
@@ -116,7 +116,7 @@ RL_hip_controller:
     joints:
       - RL_hip_joint
     command_interfaces:
-      - position
+      - effort
     state_interfaces:
       - effort
       - position
@@ -129,7 +129,7 @@ RL_thigh_controller:
     joints:
       - RL_thigh_joint
     command_interfaces:
-      - position
+      - effort
     state_interfaces:
       - effort
       - position
@@ -142,7 +142,7 @@ RL_calf_controller:
     joints:
       - RL_calf_joint
     command_interfaces:
-      - position
+      - effort
     state_interfaces:
       - effort
       - position
@@ -155,7 +155,7 @@ RR_hip_controller:
     joints:
       - RR_hip_joint
     command_interfaces:
-      - position
+      - effort
     state_interfaces:
       - effort
       - position
@@ -168,7 +168,7 @@ RR_thigh_controller:
     joints:
       - RR_thigh_joint
     command_interfaces:
-      - position
+      - effort
     state_interfaces:
       - effort
       - position
@@ -181,7 +181,7 @@ RR_calf_controller:
     joints:
       - RR_calf_joint
     command_interfaces:
-      - position
+      - effort
     state_interfaces:
       - effort
       - position

@@ -60,8 +60,8 @@ namespace unitree_joint_controller {
             currentVel = computeVel(currentPos, (double)lastState_.q, (double)lastState_.dq, period.seconds());
             calcTorque = computeTorque(currentPos, currentVel, servoCmd_);      
             effortLimits(calcTorque);
-            for (auto& command_interface : joint_cmd_interfaces_) {
-                if (command_interface.get_interface_name() == "position") {
+            for (auto& command_interface : command_interfaces_) {
+                if (command_interface.get_interface_name() == "effort") {
                     command_interface.set_value(calcTorque);
                     break;
                 }
@@ -328,7 +328,6 @@ namespace unitree_joint_controller {
     }
 
     void UnitreeJointController::setCommandCB(const ros2_unitree_legged_msgs::msg::MotorCmd::SharedPtr msg) {
-        RCLCPP_INFO(rclcpp::get_logger("rclcpp"), "\033[1;30mReceived command\033[0m");
         lastCmd_.mode = msg->mode;
         lastCmd_.q = msg->q;
         lastCmd_.kp = msg->kp;
