@@ -36,7 +36,12 @@ ros2 launch unitree_guide2 launch_world.launch.py
 ```
 (terminal2)
 ```bash
-ros2 launch unitree_ros2_guide spawn_go1.launch.py 
+ros2 launch unitree_guide2 spawn_go1.launch.py 
+```
+
+(terminal3)
+```bash
+ros2 run unitree_guide2 junior_ctrl
 ```
 
 ## Contributions
