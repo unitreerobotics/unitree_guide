@@ -9,6 +9,8 @@
 #include "FSM/State_Trotting.h"
 #include "rclcpp/rclcpp.hpp"
 #include <geometry_msgs/msg/twist.hpp>
+#include "ros2_unitree_legged_msgs/msg/high_cmd.hpp"
+
 
 class State_move_base : public State_Trotting, public rclcpp::Node {
 public:
@@ -21,7 +23,10 @@ private:
     void initRecv();
     // void run();
     void twistCallback(const geometry_msgs::msg::Twist::SharedPtr msg);
+    void highCmdCallback(const ros2_unitree_legged_msgs::msg::HighCmd::SharedPtr msg);
     rclcpp::Subscription<geometry_msgs::msg::Twist>::SharedPtr _cmdSub;
+    rclcpp::Subscription<ros2_unitree_legged_msgs::msg::HighCmd>::SharedPtr _cmdhigh;
+
     double _vx, _vy;
     double _wz;
 };
