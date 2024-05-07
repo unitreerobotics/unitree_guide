@@ -94,6 +94,7 @@ void State_SwingTest::_torqueCtrl(){
     Vec3 force0 = _Kp*(_posGoal - pos0) + _Kd*(-vel0);
 
     Vec12 torque;
+    torque.setZero();
     Mat3 jaco0 = _ctrlComp->robotModel->getJaco(*_lowState, 0);
 
     torque.segment(0, 3) = jaco0.transpose() * force0;
