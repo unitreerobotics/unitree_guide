@@ -144,3 +144,37 @@ target_link_libraries(junior_ctrl -pthread lcm)
 if(NOT CATKIN_MAKE)
     set(EXECUTABLE_OUTPUT_PATH ${PROJECT_SOURCE_DIR}/bin)
 endif()
+
+# PlotTest
+add_executable(myTest src/test.cpp ${SRC_LIST})
+if (CATKIN_MAKE)
+    target_link_libraries(myTest ${catkin_LIBRARIES})
+    add_dependencies(myTest ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
+endif ()
+find_package(Python3 COMPONENTS Interpreter Development REQUIRED)
+target_link_libraries(myTest
+  Python3::Python
+  Python3::Module
+)
+find_package(Python3 COMPONENTS NumPy)
+if(Python3_NumPy_FOUND)
+  target_link_libraries(myTest
+    Python3::NumPy
+  )
+else()
+  target_compile_definitions(myTest WITHOUT_NUMPY)
+endif()
+if(REAL_ROBOT)
+    if(${ROBOT_TYPE} STREQUAL "A1")
+        if(${PLATFORM} STREQUAL "amd64")
+            target_link_libraries(myTest libunitree_legged_sdk_amd64.so)
+        elseif(${PLATFORM} STREQUAL "arm64")
+            target_link_libraries(myTest libunitree_legged_sdk_arm64.so)
+        endif()
+    elseif(${ROBOT_TYPE} STREQUAL "Go1")
+        target_link_libraries(myTest libunitree_legged_sdk.a)
+    endif()
+endif()
+target_link_libraries(myTest -pthread lcm)
+
+
